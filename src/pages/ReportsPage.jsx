@@ -183,29 +183,8 @@ export default function ReportsPage() {
 
       {/* Digital Certificate Modal */}
       {showCertificateModal && selectedReportApp && createPortal(
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(30, 23, 23, 0.88)',
-          backdropFilter: 'blur(8px)',
-          zIndex: 9999,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '24px'
-        }}>
-          <div style={{
-            background: 'var(--bg-secondary)',
-            border: '2px solid var(--border-medium)',
-            borderRadius: 'var(--radius-2xl)',
-            width: '100%',
-            maxWidth: '680px',
-            boxShadow: 'var(--shadow-xl)',
-            overflow: 'hidden'
-          }}>
+        <div className="modal-overlay" onClick={() => setShowCertificateModal(false)}>
+          <div className="modal-container" style={{ maxWidth: '680px' }} onClick={(e) => e.stopPropagation()}>
             {/* Certificate Header Banner */}
             <div style={{
               background: 'linear-gradient(135deg, #2c2222, #413333)',
@@ -237,7 +216,7 @@ export default function ReportsPage() {
             </div>
 
             {/* Certificate Body */}
-            <div style={{ padding: '28px' }}>
+            <div className="modal-body-responsive">
               <div style={{
                 border: '1px solid var(--border-subtle)',
                 background: 'var(--bg-card)',
@@ -245,7 +224,7 @@ export default function ReportsPage() {
                 padding: '20px',
                 marginBottom: '20px'
               }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', fontSize: '0.85rem' }}>
+                <div className="form-row-2col">
                   <div>
                     <span style={{ fontSize: '0.72rem', color: 'var(--text-tertiary)', textTransform: 'uppercase' }}>Candidate Name</span>
                     <div style={{ fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>{selectedReportApp.applicantName}</div>
@@ -277,7 +256,9 @@ export default function ReportsPage() {
                 padding: '16px',
                 borderRadius: 'var(--radius-lg)',
                 background: 'var(--bg-elevated)',
-                border: '1px solid var(--border-subtle)'
+                border: '1px solid var(--border-subtle)',
+                flexWrap: 'wrap',
+                gap: '12px'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                   <div style={{
@@ -318,14 +299,7 @@ export default function ReportsPage() {
             </div>
 
             {/* Modal Actions */}
-            <div style={{
-              padding: '16px 24px',
-              borderTop: '1px solid var(--border-subtle)',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              gap: '12px',
-              background: 'var(--bg-card)'
-            }}>
+            <div className="modal-footer-responsive">
               <button 
                 className="btn btn-secondary btn-sm"
                 onClick={() => setShowCertificateModal(false)}

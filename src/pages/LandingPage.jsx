@@ -97,12 +97,12 @@ export default function LandingPage() {
       </section>
 
       {/* 6-Stage Pipeline Section */}
-      <section id="pipeline" style={{ padding: '40px 48px', maxWidth: '1360px', margin: '0 auto' }}>
+      <section id="pipeline" className="landing-section-wrapper">
         <PipelineVisualizer interactive={true} />
       </section>
 
       {/* Architecture & Tech Stack Section */}
-      <section id="architecture" style={{ padding: '40px 48px', maxWidth: '1360px', margin: '0 auto' }}>
+      <section id="architecture" className="landing-section-wrapper">
         <ArchitectureDiagram />
       </section>
 
@@ -183,7 +183,7 @@ export default function LandingPage() {
           <p>
             Experience how DocVerify AI brings automated trust, speed, and forensic precision to institutional admissions and government recruitment.
           </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
+          <div className="cta-actions">
             <Link to="/upload" className="btn btn-primary btn-lg">
               Start Verification Demo <ArrowRight size={18} />
             </Link>

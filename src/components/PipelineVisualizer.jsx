@@ -223,15 +223,7 @@ export default function PipelineVisualizer({ activeStepIndex = null, interactive
       </div>
 
       {/* Deep Dive Details Box for Selected Step */}
-      <div style={{
-        background: 'var(--bg-secondary)',
-        border: '1px solid var(--border-medium)',
-        borderRadius: 'var(--radius-xl)',
-        padding: '24px',
-        display: 'grid',
-        gridTemplateColumns: 'minmax(280px, 1fr) 280px',
-        gap: '24px'
-      }}>
+      <div className="pipeline-details-grid">
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
             <span style={{

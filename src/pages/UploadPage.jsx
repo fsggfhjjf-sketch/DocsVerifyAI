@@ -192,7 +192,7 @@ export default function UploadPage() {
             <h3 style={{ fontSize: '1.15rem', fontWeight: 800 }}>Document Verification Sandbox</h3>
           </div>
 
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+          <div className="demo-preset-group">
             <button
               onClick={() => loadDemoCase('clean')}
               className="btn btn-secondary btn-sm"
@@ -227,7 +227,7 @@ export default function UploadPage() {
               1. Candidate & Target Institution
             </h4>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+            <div className="form-row-2col">
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label">Applicant Full Name</label>
                 <input 
@@ -249,7 +249,7 @@ export default function UploadPage() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="form-row-2col">
               <div className="form-group" style={{ margin: 0 }}>
                 <label className="form-label">Receiving Institution</label>
                 <input 

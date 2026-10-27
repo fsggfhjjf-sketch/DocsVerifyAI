@@ -22,12 +22,18 @@ import {
 } from 'lucide-react';
 
 export default function VerificationDetailModal({ application, onClose, onUpdateStatus }) {
-  if (!application) return null;
-
   const [activeTab, setActiveTab] = useState('overview'); // overview, documents, forensics, crosscheck, audit
   const [selectedDocIndex, setSelectedDocIndex] = useState(0);
-  const [currentStatus, setCurrentStatus] = useState(application.status);
+  const [prevAppId, setPrevAppId] = useState(application?.id);
+  const [currentStatus, setCurrentStatus] = useState(application?.status || 'pending');
   const [reviewerNote, setReviewerNote] = useState('');
+
+  if (application && application.id !== prevAppId) {
+    setPrevAppId(application.id);
+    setCurrentStatus(application.status || 'pending');
+  }
+
+  if (!application) return null;
 
   const selectedDoc = application.documents ? application.documents[selectedDocIndex] : null;
 
@@ -295,7 +301,7 @@ export default function VerificationDetailModal({ application, onClose, onUpdate
               </div>
 
               {selectedDoc && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '20px' }}>
+                <div className="modal-doc-viewer-grid">
                   {/* Simulated Visual Document Canvas */}
                   <div style={{
                     background: '#241a1a',
@@ -543,14 +549,7 @@ export default function VerificationDetailModal({ application, onClose, onUpdate
         </div>
 
         {/* Modal Footer */}
-        <div style={{
-          padding: '16px 28px',
-          borderTop: '1px solid var(--border-subtle)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          background: 'var(--bg-card)'
-        }}>
+        <div className="modal-footer-responsive">
           <span style={{ fontSize: '0.78rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
             Digital Signature: SHA256:{application.id}-2026-OK
           </span>

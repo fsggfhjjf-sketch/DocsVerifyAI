@@ -15,6 +15,11 @@ import './App.css';
 function DashboardLayout({ children, pageTitle, pageSubtitle, searchQuery, setSearchQuery }) {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+
+  React.useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   return (
     <div className="app-layout">

@@ -198,8 +198,8 @@ export default function DashboardPage({ searchQuery = '' }) {
               8,652 Total Scanned
             </span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', height: '260px' }}>
-            <div style={{ width: '50%', height: '100%' }}>
+          <div className="chart-split-container">
+            <div className="chart-split-pie">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -222,7 +222,7 @@ export default function DashboardPage({ searchQuery = '' }) {
               </ResponsiveContainer>
             </div>
 
-            <div style={{ width: '50%', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div className="chart-split-legend">
               {pieData.map((p, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.78rem' }}>
                   <span style={{ width: 10, height: 10, borderRadius: '50%', background: p.color, flexShrink: 0 }}></span>

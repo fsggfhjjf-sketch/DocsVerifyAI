@@ -8,24 +8,35 @@ import UploadPage from './pages/UploadPage';
 import ReportsPage from './pages/ReportsPage';
 import ArchitecturePage from './pages/ArchitecturePage';
 import SettingsPage from './pages/SettingsPage';
+import MobileBottomNav from './components/MobileBottomNav';
 import './App.css';
 
 // Dashboard layout wrapper
 function DashboardLayout({ children, pageTitle, pageSubtitle, searchQuery, setSearchQuery }) {
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <div className="app-layout">
-      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+      <Sidebar 
+        collapsed={collapsed} 
+        setCollapsed={setCollapsed}
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
+      />
       <main className={`main-content ${collapsed ? 'sidebar-collapsed' : ''}`}>
         <Header 
           pageTitle={pageTitle} 
           pageSubtitle={pageSubtitle}
           searchQuery={searchQuery}
           onSearch={setSearchQuery}
+          onToggleMobile={() => setMobileOpen(prev => !prev)}
         />
-        {children}
+        <div className="content-inner">
+          {children}
+        </div>
       </main>
+      <MobileBottomNav onOpenMenu={() => setMobileOpen(true)} />
     </div>
   );
 }

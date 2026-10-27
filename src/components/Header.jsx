@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Search, 
   Bell, 
@@ -8,21 +8,37 @@ import {
   CheckCircle2, 
   AlertTriangle, 
   FileWarning, 
-  Info,
-  ChevronDown,
-  X
+  Info, 
+  Menu,
+  X 
 } from 'lucide-react';
 import { notifications } from '../data/mockData';
 
-export default function Header({ pageTitle, pageSubtitle, onSearch, searchQuery }) {
+export default function Header({ pageTitle, pageSubtitle, onSearch, searchQuery, onToggleMobile }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationList, setNotificationList] = useState(notifications);
+  const dropdownRef = useRef(null);
 
   const unreadCount = notificationList.filter(n => n.unread).length;
 
   const markAllRead = () => {
     setNotificationList(prev => prev.map(n => ({ ...n, unread: false })));
   };
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+    }
+    if (showNotifications) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showNotifications]);
 
   const getNotificationIcon = (type) => {
     switch (type) {
@@ -40,33 +56,26 @@ export default function Header({ pageTitle, pageSubtitle, onSearch, searchQuery 
   return (
     <header className="top-header">
       <div className="header-left">
-        <h2>{pageTitle || 'Dashboard'}</h2>
-        <p>{pageSubtitle || 'AI-Powered Intelligent Document Verification System • SIH 2026'}</p>
+        {/* Mobile Hamburger Drawer Button */}
+        <button 
+          className="mobile-menu-toggle"
+          onClick={onToggleMobile}
+          aria-label="Toggle navigation drawer"
+        >
+          <Menu size={22} />
+        </button>
+
+        <div className="header-titles">
+          <h2 className="header-title">{pageTitle || 'Dashboard'}</h2>
+          <p className="header-subtitle">{pageSubtitle || 'AI-Powered Intelligent Document Verification System • SIH 2026'}</p>
+        </div>
       </div>
 
       <div className="header-right">
         {/* System Health Pill */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          padding: '6px 14px',
-          background: 'rgba(16, 185, 129, 0.08)',
-          border: '1px solid rgba(16, 185, 129, 0.25)',
-          borderRadius: 'var(--radius-full)',
-          fontSize: '0.78rem',
-          color: 'var(--success-500)',
-          fontWeight: 600
-        }}>
-          <span style={{
-            width: '8px',
-            height: '8px',
-            borderRadius: '50%',
-            background: 'var(--success-500)',
-            display: 'inline-block',
-            boxShadow: '0 0 8px var(--success-500)'
-          }}></span>
-          <span>AI Pipeline Active</span>
+        <div className="system-health-pill">
+          <span className="health-pulse-dot"></span>
+          <span className="health-badge-label">AI Pipeline Active</span>
         </div>
 
         {/* Global Search Bar */}
@@ -74,14 +83,14 @@ export default function Header({ pageTitle, pageSubtitle, onSearch, searchQuery 
           <Search className="search-icon" size={16} />
           <input
             type="text"
-            placeholder="Search by ID, applicant, college..."
+            placeholder="Search queue..."
             value={searchQuery || ''}
             onChange={(e) => onSearch && onSearch(e.target.value)}
           />
         </div>
 
         {/* Notification Bell with Dropdown */}
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative' }} ref={dropdownRef}>
           <button 
             className="header-icon-btn" 
             onClick={() => setShowNotifications(!showNotifications)}

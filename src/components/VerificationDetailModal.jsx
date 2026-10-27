@@ -52,67 +52,25 @@ export default function VerificationDetailModal({ application, onClose, onUpdate
   };
 
   return createPortal(
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: 'rgba(30, 23, 23, 0.88)',
-      backdropFilter: 'blur(8px)',
-      zIndex: 9999,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '24px'
-    }}>
-      <div style={{
-        background: 'var(--bg-secondary)',
-        border: '1px solid var(--border-medium)',
-        borderRadius: 'var(--radius-2xl)',
-        width: '100%',
-        maxWidth: '1100px',
-        maxHeight: '90vh',
-        display: 'flex',
-        flexDirection: 'column',
-        boxShadow: 'var(--shadow-xl)',
-        overflow: 'hidden'
-      }}>
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         {/* Modal Header */}
-        <div style={{
-          padding: '20px 28px',
-          borderBottom: '1px solid var(--border-subtle)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          background: 'var(--bg-card)'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div style={{
-              width: '44px',
-              height: '44px',
-              borderRadius: 'var(--radius-lg)',
-              background: 'var(--gradient-brand)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: 800,
-              fontSize: '1rem',
-              color: '#fff'
-            }}>
+        <div className="modal-header-responsive">
+          <div className="modal-header-left">
+            <div className="modal-header-avatar">
               {application.initials || 'AP'}
             </div>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+            <div className="modal-header-info">
+              <div className="modal-header-title-row">
+                <h3 className="modal-applicant-name">
                   {application.applicantName}
                 </h3>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>
+                <span className="modal-applicant-id">
                   ({application.id})
                 </span>
                 {getStatusBadge(currentStatus)}
               </div>
-              <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'flex', gap: '16px', marginTop: '4px' }}>
+              <div className="modal-header-meta">
                 <span>Program: <strong>{application.type}</strong></span>
                 <span>Institution: <strong>{application.institution}</strong></span>
                 <span>Submitted: <strong>{application.submittedDate}</strong></span>
@@ -120,21 +78,13 @@ export default function VerificationDetailModal({ application, onClose, onUpdate
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '6px 14px',
-              borderRadius: 'var(--radius-full)',
+          <div className="modal-header-right">
+            <div className="modal-confidence-badge" style={{
               background: application.confidenceScore > 80 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-              border: application.confidenceScore > 80 ? '1px solid rgba(16, 185, 129, 0.25)' : '1px solid rgba(239, 68, 68, 0.25)'
+              borderColor: application.confidenceScore > 80 ? 'rgba(16, 185, 129, 0.25)' : 'rgba(239, 68, 68, 0.25)'
             }}>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Confidence</span>
-              <span style={{
-                fontFamily: 'var(--font-mono)',
-                fontWeight: 800,
-                fontSize: '1rem',
+              <span className="conf-label">Confidence</span>
+              <span className="conf-value" style={{
                 color: application.confidenceScore > 80 ? 'var(--success-500)' : 'var(--danger-500)'
               }}>
                 {application.confidenceScore}%
@@ -143,8 +93,7 @@ export default function VerificationDetailModal({ application, onClose, onUpdate
 
             <button 
               onClick={onClose}
-              className="header-icon-btn"
-              style={{ width: '36px', height: '36px' }}
+              className="header-icon-btn modal-close-btn"
               aria-label="Close modal"
             >
               <X size={18} />
@@ -153,13 +102,7 @@ export default function VerificationDetailModal({ application, onClose, onUpdate
         </div>
 
         {/* Modal Navigation Tabs */}
-        <div style={{
-          padding: '12px 28px',
-          borderBottom: '1px solid var(--border-subtle)',
-          display: 'flex',
-          gap: '8px',
-          background: 'var(--bg-glass)'
-        }}>
+        <div className="modal-tabs-bar">
           {[
             { id: 'overview', label: 'Overview & OCR' },
             { id: 'documents', label: 'Documents & Forensics' },
@@ -171,7 +114,6 @@ export default function VerificationDetailModal({ application, onClose, onUpdate
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`tab ${activeTab === tab.id ? 'active' : ''}`}
-              style={{ fontSize: '0.82rem', padding: '6px 14px' }}
             >
               {tab.label}
             </button>
@@ -179,10 +121,10 @@ export default function VerificationDetailModal({ application, onClose, onUpdate
         </div>
 
         {/* Modal Body Content */}
-        <div style={{ padding: '24px 28px', overflowY: 'auto', flex: 1 }}>
+        <div className="modal-body-responsive">
           {/* TAB 1: OVERVIEW & EXTRACTED OCR DATA */}
           {activeTab === 'overview' && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '24px' }}>
+            <div className="modal-overview-grid">
               <div>
                 <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '14px', color: 'var(--text-primary)' }}>
                   Extracted Entities (OCR + Named Entity Recognition)
